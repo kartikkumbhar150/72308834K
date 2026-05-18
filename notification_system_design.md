@@ -130,7 +130,7 @@ CREATE TABLE notifications (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-#Stage 3
+# Stage 3
 
 The sql query provided is accurate , the reason behind the query to be slow is as the data is increased a lot , there will be a lot of api calls to the db. Use indexing we can improve the speed of it but it not not be useful that much .
 
@@ -138,4 +138,17 @@ Solution :
 The solution to this is to develop a redis caching layer. Adding a redis database will store the frequent data in the cache layer. When a notification is posted by the admin , the notification will be stored in the redis database. The users will now fetch the notification from the redis cache. This will significantly reduce the database load and will help to get the api calls very fast.
 
 
+# Stage 4
+
+The best solution is to add the cache layer, for which the Redis database will be an excellent choice. The redis database is very powerful cache layer which can cache data at the global level. Using this the most frequently used data will be stored in the redis cache and there will be very less api calls to the database significantly decreasing the database load. When the notification is posted by the admin , it is first stored in db and then in redis , and the users fetch it from the redis cache. 
+Also all the most frequently used data can be stored,
+Also we can implement a cache layer at the user side where his own private data is stored in it and retrived for example profile. 
+
+We need to eliminate the data from redis every few minutes, so the stale data is removed from it and the data is updated and the data is fresh.
+
+Whenever there is a update request or create new request , the data from the cache must be evicted ie removed and freshly data should be available.
+
+For multimedia data we can use CDN layer for it. This will provide very fast data retriving.
+
+We should also implement asynchronous processing in the application , so that the api never hangs.
     
