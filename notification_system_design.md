@@ -1,4 +1,4 @@
-# Stage 
+# Stage 1
 
 Following are the core sections the platform should have : 
 
@@ -94,3 +94,41 @@ Error Response : All apis return a error:
     "code": "NOTIFICATION_NOT_FOUND",
     "message": "Notification not found."
   }
+
+
+# Stage 2
+
+I will use the PostgreSql database for it,
+As the data we are using and providing is a structered data , using a relational database will be the best choice for it , as we can use sql also, but postgresql will provide more functionality.
+
+
+CREATE TABLE departments (
+  id BIGINT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL UNIQUE,
+  created_at TIMESTAMP NDEFAULT NOW()
+);
+
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  role VARCHAR(40), (student, faculty, admin, placement_officer)
+  department_id REFERNCES departments(id),
+  branch VARCHAR(80),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE notifications (
+  id BIGINT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  message VARCHAR NOT NULL,
+  body VARCHAR,
+  category VARCHAR(40),
+  priority VARCHAR(20),
+  department_id BIGINT REFERENCES departments(id),
+  posted_by BIGINT REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+
+    
