@@ -130,5 +130,12 @@ CREATE TABLE notifications (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+#Stage 3
+
+The sql query provided is accurate , the reason behind the query to be slow is as the data is increased a lot , there will be a lot of api calls to the db. Use indexing we can improve the speed of it but it not not be useful that much .
+
+Solution :
+The solution to this is to develop a redis caching layer. Adding a redis database will store the frequent data in the cache layer. When a notification is posted by the admin , the notification will be stored in the redis database. The users will now fetch the notification from the redis cache. This will significantly reduce the database load and will help to get the api calls very fast.
+
 
     
